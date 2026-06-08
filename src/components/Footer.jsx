@@ -57,10 +57,10 @@ const Footer = () => {
                             Quality products, competitive prices, and excellent customer service since 2024.
                         </p>
                         <div className="flex space-x-4">
-                            <a href="#" className="text-gray-400 hover:text-white">FB</a>
-                            <a href="#" className="text-gray-400 hover:text-white">TW</a>
-                            <a href="#" className="text-gray-400 hover:text-white">IG</a>
-                            <a href="#" className="text-gray-400 hover:text-white">LI</a>
+                            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">FB</a>
+                            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">TW</a>
+                            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">IG</a>
+                            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">LI</a>
                         </div>
                     </div>
 
