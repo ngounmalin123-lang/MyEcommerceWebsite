@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { 
-    User, Calendar, Edit2, Save, X, 
-    ShoppingBag, Heart, Settings, LogOut, Camera, 
-    CreditCard, Loader, Package
+    User, Calendar, ShoppingBag, Heart, Settings, LogOut, Camera, CreditCard, Package
 } from 'lucide-react';
 
 const Account = () => {
@@ -15,12 +13,12 @@ const Account = () => {
         avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop'
     });
     
-    const [isEditing, setIsEditing] = useState(false);
-    const [editedUser, setEditedUser] = useState(user);
+    const [, setIsEditing] = useState(false);
+    const [, editedUser] = useState(user);
     const [activeTab, setActiveTab] = useState('profile');
     const [orders, setOrders] = useState([]);
     const [wishlist, setWishlist] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [, setLoading] = useState(false);
 
     // Load data
     useEffect(() => {
@@ -161,6 +159,188 @@ const Account = () => {
                             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                                 <div className="flex justify-between items-center mb-6">
                                     <h3 className="text-lg font-semibold text-gray-900">Profile Information</h3>
+                                    {!isEditing ? (
+                                        <button
+                                            onClick={() => setIsEditing(true)}
+                                            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-purple-600 hover:bg-purple-50 rounded-lg transition"
+                                        >
+                                            <Edit2 size={16} />
+                                            Edit
+                                        </button>
+                                    ) : (
+                                        <div className="flex gap-2">
+                                            <button
+                                                onClick={handleSave}
+                                                disabled={loading}
+                                                className="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
+                                            >
+                                                {loading ? <Loader size={16} className="animate-spin" /> : <Save size={16} />}
+                                                Save
+                                            </button>
+                                            <button
+                                                onClick={() => {
+                                                    setEditedUser(user);
+                                                    setIsEditing(false);
+                                                }}
+                                                className="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition"
+                                            >
+                                                <X size={16} />
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="space-y-5">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                                        {isEditing ? (
+                                            <input
+                                                type="text"
+                                                value={editedUser.name}
+                                                onChange={(e) => setEditedUser({ ...editedUser, name: e.target.value })}
+                                                className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                            />
+                                        ) : (
+                                            <p className="text-gray-900">{user.name}</p>
+                                        )}
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                        {isEditing ? (
+                                            <input
+                                                type="email"
+                                                value={editedUser.email}
+                                                onChange={(e) => setEditedUser({ ...editedUser, email: e.target.value })}
+                                                className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                            />
+                                        ) : (
+                                            <p className="text-gray-900">{user.email}</p>
+                                        )}
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                                        {isEditing ? (
+                                            <input
+                                                type="tel"
+                                                value={editedUser.phone}
+                                                onChange={(e) => setEditedUser({ ...editedUser, phone: e.target.value })}
+                                                className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                            />
+                                        ) : (
+                                            <p className="text-gray-900">{user.phone}</p>
+                                        )}
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                                        {isEditing ? (
+                                            <textarea
+                                                value={editedUser.address}
+                                                onChange={(e) => setEditedUser({ ...editedUser, address: e.target.value })}
+                                                rows="3"
+                                                className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                            />
+                                        ) : (
+                                            <p className="text-gray-900">{user.address}</p>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Orders Tab */}
+                        {activeTab === 'orders' && (
+                            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Orders</h3>
+                                
+                                {orders.length === 0 ? (
+                                    <div className="text-center py-12">
+                                        <Package size={48} className="mx-auto text-gray-300 mb-3" />
+                                        <p className="text-gray-500">No orders yet</p>
+                                    </div>
+                                ) : (
+                                    <div className="space-y-3">
+                                        {orders.map((order) => (
+                                            <div key={order.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                                                <div>
+                                                    <p className="font-medium text-gray-900">{order.id}</p>
+                                                    <p className="text-sm text-gray-500 mt-0.5">{order.date}</p>
+                                                    <p className="text-sm text-gray-500 mt-1">{order.items} items</p>
+                                                </div>
+                                                <div className="text-right">
+                                                    <p className="text-lg font-semibold text-gray-900">${order.total}</p>
+                                                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium mt-2 ${getStatusBadge(order.status)}`}>
+                                                        {order.status}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        {/* Wishlist Tab */}
+                        {activeTab === 'wishlist' && (
+                            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4">Wishlist</h3>
+                                
+                                {wishlist.length === 0 ? (
+                                    <div className="text-center py-12">
+                                        <Heart size={48} className="mx-auto text-gray-300 mb-3" />
+                                        <p className="text-gray-500">Your wishlist is empty</p>
+                                    </div>
+                                ) : (
+                                    <div className="space-y-3">
+                                        {wishlist.map((item) => (
+                                            <div key={item.id} className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+                                                <img src={item.image} alt={item.title} className="w-16 h-16 object-contain" />
+                                                <div className="flex-1">
+                                                    <p className="font-medium text-gray-900">{item.title}</p>
+                                                    <p className="text-purple-600 font-semibold mt-1">${item.price}</p>
+                                                </div>
+                                                <button className="px-4 py-2 text-sm bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
+                                                    Add to Cart
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        {/* Settings Tab */}
+                        {activeTab === 'settings' && (
+                            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4">Preferences</h3>
+                                
+                                <div className="space-y-4">
+                                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                                        <div className="flex items-center gap-3">
+                                            <Bell size={20} className="text-gray-600" />
+                                            <span className="text-gray-900">Email Notifications</span>
+                                        </div>
+                                        <button className="w-11 h-6 bg-purple-600 rounded-full relative">
+                                            <div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+                                        </button>
+                                    </div>
+
+                                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                                        <div className="flex items-center gap-3">
+                                            <Shield size={20} className="text-gray-600" />
+                                            <span className="text-gray-900">Two-Factor Authentication</span>
+                                        </div>
+                                        <button className="w-11 h-6 bg-gray-300 rounded-full relative">
+                                            <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+                                        </button>
+                                    </div>
+
+                                    <button className="w-full py-3 bg-purple-600 text-white rounded-xl font-medium hover:bg-purple-700 transition">
+                                        Change Password
+                                    </button>
                                 </div>
                             </div>
                         )}
