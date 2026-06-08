@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { 
-    User, Calendar, ShoppingBag, Heart, Settings, LogOut, Camera, CreditCard, Package
+    User, Mail, Phone, MapPin, Calendar, Edit2, Save, X, 
+    ShoppingBag, Heart, Settings, LogOut, Camera, Check,
+    CreditCard, Truck, Bell, Shield, Moon, Sun, Loader,
+    Package, TrendingUp, Award
 } from 'lucide-react';
 
 const Account = () => {
@@ -13,12 +16,12 @@ const Account = () => {
         avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop'
     });
     
-    const [, setIsEditing] = useState(false);
-    const [, editedUser] = useState(user);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedUser, setEditedUser] = useState(user);
     const [activeTab, setActiveTab] = useState('profile');
     const [orders, setOrders] = useState([]);
     const [wishlist, setWishlist] = useState([]);
-    const [, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     // Load data
     useEffect(() => {
